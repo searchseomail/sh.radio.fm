@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ЕвроТур - Незабываемые туры по Европе. Поиск туров, билеты, отели и экскурсии.">
+    <title>ЕвроТур | Туры по Европе</title>
+    <!-- Подключение шрифтов -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Подключение иконок -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        /* Базовые стили */
+        :root {
+            --primary-color: #1a365d;
+            --secondary-color: #e53e3e;
+            --light-bg: #f7fafc;
+            --text-color: #2d3748;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            color: var(--text-color);
+            background-color: #fff;
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* Шапка сайта */
+        header {
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 15px 50px;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .logo span {
+            color: var(--secondary-color);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+
+        nav ul li a {
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: var(--secondary-color);
+        }
+
+        .btn {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #c53030;
+        }
+
+        /* Главный экран (Hero) */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&w=1920&q=80') center/cover;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+            padding: 0 20px;
+            margin-top: 60px;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+        }
+
+        /* Форма поиска туров */
+        .search-box {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .search-box input, .search-box select {
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            flex: 1;
+            min-width: 150px;
+        }
+
+        /* Разделы */
+        section {
+            padding: 80px 10%;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            color: var(--primary-color);
+        }
+
+        /* Услуги */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .service-card {
+            text-align: center;
+            padding: 30px;
+            background: var(--light-bg);
+            border-radius: 10px;
+            transition: transform 0.3s;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .service-card i {
+            font-size: 3rem;
+            color: var(--secondary-color);
+            margin-bottom: 20px;
+        }
+
+        /* Популярные Туры */
+        .tours-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .tour-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: 0.3s;
+        }
+
+        .tour-card:hover {
+            transform: scale(1.02);
+        }
+
+        .tour-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .tour-info {
+            padding: 20px;
+        }
+
+        .tour-info h3 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .tour-price {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--secondary-color);
+            margin: 15px 0;
+        }
+
+        /* Билеты */
+        .tickets-section {
+            background: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 60px 10%;
+        }
+        
+        .tickets-section h2 {
+            color: white;
+        }
+
+        /* Отзывы */
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .review-card {
+            background: var(--light-bg);
+            padding: 30px;
+            border-radius: 10px;
+            border-left: 5px solid var(--secondary-color);
+        }
+
+        .review-author {
+            font-weight: 700;
+            margin-top: 15px;
+            color: var(--primary-color);
+        }
+
+        /* Контакты и Карта */
+        .contact-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 50px;
+        }
+
+        .contact-info {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .contact-info p {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .contact-info i {
+            color: var(--secondary-color);
+            margin-right: 10px;
+        }
+
+        .map {
+            flex: 1;
+            min-width: 300px;
+            height: 300px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        /* Футер */
+        footer {
+            background: #112240;
+            color: white;
+            text-align: center;
+            padding: 30px;
+        }
+
+        footer .socials {
+            margin-top: 15px;
+        }
+
+        footer .socials a {
+            color: white;
+            font-size: 1.5rem;
+            margin: 0 10px;
+            transition: color 0.3s;
+        }
+
+        footer .socials a:hover {
+            color: var(--secondary-color);
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                padding: 15px;
+            }
+            nav ul {
+                margin-top: 15px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .hero h1 {
+                font-size: 2rem;
+            }
+            .search-box {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Шапка -->
+    <header>
+        <a href="https://sh.radio.fm/" class="logo">Евро<span>Тур</span></a>
+        <nav>
+            <ul>
+                <li><a href="#tours">Туры</a></li>
+                <li><a href="#services">Услуги</a></li>
+                <li><a href="#tickets">Билеты</a></li>
+                <li><a href="#reviews">Отзывы</a></li>
+                <li><a href="#contacts">Контакты</a></li>
+            </ul>
+        </nav>
+        <button class="btn" onclick="openModal()">Заказать звонок</button>
+    </header>
+
+    <!-- Главный экран -->
+    <section class="hero" id="home">
+        <h1>Откройте для себя Европу вместе с нами</h1>
+        <p>Лучшие авторские и автобусные туры по самым красивым городам Европы</p>
+        
+        <!-- Поиск туров -->
+        <form class="search-box" onsubmit="searchTours(event)">
+            <select required>
+                <option value="" disabled selected>Куда поедем?</option>
+                <option value="italy">Италия</option>
+                <option value="france">Франция</option>
+                <option value="spain">Испания</option>
+                <option value="czech">Чехия</option>
+                <option value="germany">Германия</option>
+            </select>
+            <input type="date" required>
+            <input type="number" placeholder="Количество человек" min="1" required>
+            <button type="submit" class="btn" style="width: 100%; max-width: 200px;">Найти тур</button>
+        </form>
+    </section>
+
+    <!-- Услуги -->
+    <section id="services">
+        <h2 class="section-title">Наши услуги</h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <i class="fa-solid fa-earth-europe"></i>
+                <h3>Пакетные туры</h3>
+                <p>Организуем путешествие от А до Я: перелет, трансфер, проживание и экскурсии.</p>
+            </div>
+            <div class="service-card">
+                <i class="fa-solid fa-passport"></i>
+                <h3>Визовая поддержка</h3>
+                <p>Помогаем с оформлением Шенгенских виз в кратчайшие сроки без стресса.</p>
+            </div>
+            <div class="service-card">
+                <i class="fa-solid fa-hotel"></i>
+                <h3>Бронирование отелей</h3>
+                <p>Сотрудничаем с лучшими отелями Европы. Подберем жилье на любой бюджет.</p>
+            </div>
+            <div class="service-card">
+                <i class="fa-solid fa-car"></i>
+                <h3>Аренда авто и трансфер</h3>
+                <p>Встретим в аэропорту или организуем аренду автомобиля для самостоятельных поездок.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Популярные туры -->
+    <section id="tours" style="background: var(--light-bg);">
+        <h2 class="section-title">Популярные направления</h2>
+        <div class="tours-grid">
+            <!-- Тур 1 -->
+            <div class="tour-card">
+                <img src="https://images.unsplash.com/photo-1552832230-c0197dd311b5?auto=format&fit=crop&w=800&q=80" alt="Рим">
+                <div class="tour-info">
+                    <h3>Римские каникулы</h3>
+                    <p><i class="fa-solid fa-clock"></i> 7 дней / 6 ночей</p>
+                    <p>Колизей, Ватикан, Фонтан Треви и настоящая итальянская пицца.</p>
+                    <div class="tour-price">от €450</div>
+                    <button class="btn" style="width: 100%;" onclick="bookTour('Римские каникулы')">Забронировать</button>
+                </div>
+            </div>
+            <!-- Тур 2 -->
+            <div class="tour-card">
+                <img src="https://images.unsplash.com/photo-1511739001486-6bfe10ce785f?auto=format&fit=crop&w=800&q=80" alt="Париж">
+                <div class="tour-info">
+                    <h3>Романтический Париж</h3>
+                    <p><i class="fa-solid fa-clock"></i> 5 дней / 4 ночи</p>
+                    <p>Эйфелева башня, Лувр, круиз по Сене и круассаны на завтрак.</p>
+                    <div class="tour-price">от €520</div>
+                    <button class="btn" style="width: 100%;" onclick="bookTour('Романтический Париж')">Забронировать</button>
+                </div>
+            </div>
+            <!-- Тур 3 -->
+            <div class="tour-card">
+                <img src="https://images.unsplash.com/photo-1543364106-9b552fa75338?auto=format&fit=crop&w=800&q=80" alt="Прага">
+                <div class="tour-info">
+                    <h3>Мистическая Прага</h3>
+                    <p><i class="fa-solid fa-clock"></i> 4 дня / 3 ночи</p>
+                    <p>Карлов мост, Пражский Град и лучшие чешские пивоварни.</p>
+                    <div class="tour-price">от €320</div>
+                    <button class="btn" style="width: 100%;" onclick="bookTour('Мистическая Прага')">Забронировать</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Билеты -->
+    <section id="tickets" class="tickets-section">
+        <h2 class="section-title">Авиа и Ж/Д Билеты</h2>
+        <p style="font-size: 1.2rem; margin-bottom: 30px;">Не хотите брать пакетный тур? Мы поможем найти самые дешевые билеты по всей Европе!</p>
+        <button class="btn" style="background: white; color: var(--primary-color); font-size: 1.2rem; padding: 15px 30px;" onclick="alert('Переход к системе поиска билетов...')">Найти билеты <i class="fa-solid fa-plane"></i></button>
+    </section>
+
+    <!-- Отзывы -->
+    <section id="reviews">
+        <h2 class="section-title">Отзывы наших туристов</h2>
+        <div class="reviews-grid">
+            <div class="review-card">
+                <p>"Ездили с мужем в тур по Италии. Всё было организовано на высшем уровне. Гиды потрясающие, отели чистые. Обязательно обратимся еще!"</p>
+                <div class="review-author">— Анна Смирнова</div>
+            </div>
+            <div class="review-card">
+                <p>"Спасибо за визу в Испанию! Сделали за неделю, когда другие агентства отказывали. Отпуск прошел великолепно."</p>
+                <div class="review-author">— Михаил Иванов</div>
+            </div>
+            <div class="review-card">
+                <p>"Покупали билеты и бронировали отель в Праге. Девочки-менеджеры учли все пожелания, подобрали отель прямо в центре."</p>
+                <div class="review-author">— Екатерина Л.</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Контакты и Карта -->
+    <section id="contacts" style="background: var(--light-bg);">
+        <h2 class="section-title">Свяжитесь с нами</h2>
+        <div class="contact-container">
+            <div class="contact-info">
+                <h3>Ждем вас в гости!</h3>
+                <br>
+                <p><i class="fa-solid fa-location-dot"></i> г. Варшава, ул. Маршалковская, 115 (Офис в центре)</p>
+                <p><i class="fa-solid fa-phone"></i> +48 123 456 789</p>
+                <p><i class="fa-solid fa-envelope"></i> info@sh.radio.fm</p>
+                <p><i class="fa-solid fa-clock"></i> Пн-Пт: 09:00 - 19:00</p>
+                <br>
+                <p>Официальный сайт: <a href="https://sh.radio.fm/" style="color: var(--secondary-color); font-weight: bold;">sh.radio.fm</a></p>
+            </div>
+            
+            <!-- Встроенная карта Google Maps -->
+            <div class="map">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d156388.35438505505!2d20.921112613507565!3d52.23306527515099!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x471ecc669a869f01%3A0x72f0be2a88ead3fc!2sWarsaw%2C%20Poland!5e0!3m2!1sen!2sua!4v1699999999999!5m2!1sen!2sua" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- Подвал (Footer) -->
+    <footer>
+        <p>&copy; 2026 ЕвроТур. Все права защищены.</p>
+        <p>Сайт работает на домене <a href="https://sh.radio.fm/" style="text-decoration: underline;">sh.radio.fm</a></p>
+        <div class="socials">
+            <a href="#"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#"><i class="fa-brands fa-telegram"></i></a>
+            <a href="#"><i class="fa-brands fa-facebook"></i></a>
+        </div>
+    </footer>
+
+    <!-- Простые JavaScript функции для интерактива -->
+    <script>
+        // Функция поиска туров (имитация)
+        function searchTours(event) {
+            event.preventDefault(); // Останавливаем перезагрузку страницы
+            alert('Ищем лучшие предложения на выбранные даты... Пожалуйста, подождите.');
+        }
+
+        // Функция бронирования тура (имитация)
+        function bookTour(tourName) {
+            alert('Вы выбрали тур: ' + tourName + '. Наш менеджер скоро свяжется с вами для оформления заявки!');
+        }
+
+        // Заказ обратного звонка
+        function openModal() {
+            let phone = prompt("Введите ваш номер телефона, и мы перезвоним вам в течение 5 минут:");
+            if(phone) {
+                alert('Спасибо! Мы приняли номер ' + phone + '. Ожидайте звонка.');
+            }
+        }
+    </script>
+</body>
+</html>
